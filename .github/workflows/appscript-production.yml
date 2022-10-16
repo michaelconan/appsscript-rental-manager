@@ -1,0 +1,28 @@
+name: Apps Script Production Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Future feature...
+  # test-script:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  
+  promote-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2.3.2
+      - name: Promote script to production project
+        uses: daikikatsuragawa/clasp-action@v1.1.0
+        with:
+          accessToken: ${{ secrets.ACCESS_TOKEN }}
+          idToken: ${{ secrets.ID_TOKEN }}
+          refreshToken: ${{ secrets.REFRESH_TOKEN }}
+          clientId: ${{ secrets.CLIENT_ID }}
+          clientSecret: ${{ secrets.CLIENT_SECRET }}
+          scriptId: ${{ secrets.PROD_SCRIPT_ID }}
+          command: 'push'

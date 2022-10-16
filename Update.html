@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- Monthly Duplex rental email template to be populated by script -->
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('Stylesheet').getContent(); ?>
+  </head>
+  <body style='background-color:#D5D5D5;'>
+    <h1><?!= PROPS.getProperty('address_1'); ?> Update</h1>
+    <h3><?= MONTH ?></h3>
+    <p>Please see the summary of property metrics in the table below.</p>
+      <br>
+    <table>
+      <tr>
+        <th colspan=2>Net Cash Flow</th>
+      </tr>
+      <tr>
+        <td>Inception-to-date</td>
+        <td>$<?= data.cashflow.ITD ?></td>
+      </tr>
+      <tr>
+        <td><?= data.dates.year ?> Year-to-date</td>
+        <td>$<?= data.cashflow.YTD ?></td>
+      </tr>
+      <tr>
+        <td><?= data.dates.quarter ?> Quarter-to-date</td>
+        <td>$<?= data.cashflow.QTD ?></td>
+      </tr>
+      <tr>
+        <th colspan=2>Financing</th>
+      </tr>
+      <tr>
+        <td>Mortgage Outstanding</td>
+        <td>$<?= data.finance.mortgage ?></td>
+      </tr>
+      <tr>
+        <td>Reimbursement Balance</td>
+        <td>$<?= data.finance.reimbursement ?></td>
+      </tr>
+      <tr>
+        <th colspan=2>Market</th>
+      </tr>
+      <tr>
+        <td>Current <a href="<?= data.zillow.link ?>">Trulia Estimate</a></td>
+        <td>$<?= data.zillow.price ?></td>
+      </tr>
+      <tr>
+        <td>Appreciation</td>
+        <td>$<?= data.zillow.appreciation ?></td>
+      </tr>      
+      <tr>
+        <td>Average of Top Comps</td>
+        <td>$<?= data.zillow.comp ?></td>
+      </tr>
+    </table>
+      <br>
+    <? for (let i=0; i < images.length; i++) { ?>
+      <img src="cid:<?= images[i] ?>" style="width:500px; height:300px; margin-left:25px;"/>
+      <br>
+    <? } ?>
+    
+    <p>For additional information, please refer to the spreadsheet linked <a href="https://docs.google.com/spreadsheets/d/1Pmufykl7_lTb2--HjffKtva-ajZQc_wQuNSGYdJlSlU/edit#gid=2078113804">here.</a>
+      <br>
+    <p>For any expenses incurred on behalf of the business, please complete the submission form <a href="https://forms.gle/cr8fq32JWR8PbZ6P8">here</a> to add them to the spreadsheet for reimbursement credit.
+      <br>
+    <br>Thank You,
+    <br>Michael Conan</p>
+  </body>
+</html>
+
+
