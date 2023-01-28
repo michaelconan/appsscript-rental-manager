@@ -132,7 +132,7 @@ function getBills() {
         if (!match) {
           // Unmatched for review
           Logger.log('No account match for message ' + m.getId() + ' - ' + m.getFirstMessageSubject());
-          m.addLabel(REVIEW).moveToInbox();
+          addTask(m.getId(), m.getFirstMessageSubject());
         }
       }
       catch (err) {
@@ -476,6 +476,24 @@ function auth_() {
     return false;
   } else {
     return true;
+  }
+}
+
+function addTask(msgId, subject) {
+  let task = {
+      title: "Review Bill: " + subject,
+      status:"needsAction",
+      notes: "https://mail.google.com/mail/#all/" + msgId
+    }
+
+  try {
+    // Call insert method with taskDetails and taskListId to insert Task to specified tasklist.
+    task = Tasks.Tasks.insert(task, PROPS.getProperty('task_list'));
+    // Print the Task ID of created task.
+    console.log('Task with ID "%s" was created.', task.id);
+  } catch (err) {
+    // TODO (developer) - Handle exception from Tasks.insert() of Task API
+    console.log('Failed with an error %s', err.message);
   }
 }
 

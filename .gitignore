@@ -1,2 +1,7 @@
 # Metadata files from Drive for Desktop
 *.ini
+
+# Clasp credential files
+.clasp.json
+.clasprc.json
+creds.json
