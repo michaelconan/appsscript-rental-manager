@@ -23,3 +23,7 @@ function testEditTrigger() {
   }
   onEdit(e);
 }
+
+function apiTest(message) {
+  return 'Hello ' + message;
+}
