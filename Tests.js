@@ -27,3 +27,8 @@ function testEditTrigger() {
 function apiTest(message) {
   return 'Hello ' + message;
 }
+
+function testAddTask() {
+  let id = '185eeb3794bb9001';
+  addTask(id, 'test task');
+}
