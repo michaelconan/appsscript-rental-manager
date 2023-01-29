@@ -480,9 +480,12 @@ function auth_() {
 }
 
 function addTask(msgId, subject) {
+  let today = new Date();
+  let tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
   let task = {
       title: "Review Bill: " + subject,
       status:"needsAction",
+      due: tomorrow.toISOString(),
       notes: "https://mail.google.com/mail/#all/" + msgId
     }
 
