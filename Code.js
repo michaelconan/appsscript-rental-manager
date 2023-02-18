@@ -114,7 +114,9 @@ function getBills() {
               amount = (homeTrans.length) ? amount - homeTrans[0][2] : amount * 0.65; // Approximation if not recorded
             }
           }
-          postEntry_([mDate, 5, u, amount, 'Michael', UTILITIES[u].service.replace('Water', 'Water District')]);
+
+          let utility = (u.endsWith('Water')) ? u.replace('Water', 'Water District') : u;
+          postEntry_([mDate, 5, utility, amount, 'Michael', UTILITIES[u].service]);
         } else if (UTILITIES[u].actMain) {
           // If Main account specified for utility...
           if (body.indexOf(UTILITIES[u].actMain)+1) {
@@ -177,15 +179,15 @@ function getMortgage() {
   }
   
   // Set mortgage amounts (Duplex)
-  var mortgage = CRM.getSheetByName('Summary').getRange(8,6,2,3).getValues();
-  mortgage = mortgage.map(m => [RENTDATE, 2, m[1], m[2], 'Michael', m[0]]);
+  var mortgage = CRM.getSheetByName('Summary').getRange(8,6,2,4).getValues();
+  mortgage = mortgage.map(m => [RENTDATE, m[1], m[2], m[3], 'Michael', m[0]]);
   
   // Write mortgage to transaction detail (Duplex)
   mortgage.forEach(m => postEntry_(m));
 
   // Set mortgage amounts (Main)
   var mortgageMain = SMAIN.getSheetByName('Summary').getRange(3,5,3,3).getValues();
-  mortgageMain = mortgageMain.map(m => [RENTDATE, 2, m[1], m[2], 'Michael', 'Mortgage', m[0]]);
+  mortgageMain = mortgageMain.map(m => [RENTDATE, m[1], m[2], 'Michael', 'Mortgage', m[0]]);
   
   // Write mortgage to transaction detail (Main)
   mortgageMain.forEach(m => postMain_(m));
@@ -237,7 +239,15 @@ function sendUpdates(recipients) {
   html.images = Object.keys(images);
 
   // Send email update
-  GmailApp.sendEmail(recipients, 'Conan Rental Management ' + MONTH + ' Update', plainBody_(data), {htmlBody: html.evaluate().getContent(), inlineImages: images, name: 'Conan Rental Management', cc: MAIN_USER})
+  GmailApp.sendEmail(recipients, 
+                      'Conan Rental Management ' + MONTH + ' Update', 
+                      plainBody_(data), 
+                      {
+                        htmlBody: html.evaluate().getContent(), 
+                        inlineImages: images, 
+                        name: 'Conan Rental Management', 
+                        cc: MAIN_USER
+                      });
   
 }
 
