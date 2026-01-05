@@ -16,6 +16,15 @@ function testGetBills() {
 
 }
 
+function testGetVendor() {
+   
+  // Set test flag
+  TEST = true;
+
+  getBills("Tualatin Valley Water District");
+
+}
+
 function testEditTrigger() {
   
   let e = {
@@ -31,4 +40,9 @@ function apiTest(message) {
 function testAddTask() {
   let id = '185eeb3794bb9001';
   addTask(id, 'test task');
+}
+
+function testTest() {
+  console.log(cashFlow_());
+  console.log(financing_());
 }

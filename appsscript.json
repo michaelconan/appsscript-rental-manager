@@ -3,14 +3,14 @@
   "dependencies": {
     "enabledAdvancedServices": [
       {
-        "userSymbol": "Drive",
-        "serviceId": "drive",
-        "version": "v2"
-      },
-      {
         "userSymbol": "Tasks",
         "version": "v1",
         "serviceId": "tasks"
+      },
+      {
+        "userSymbol": "Drive",
+        "version": "v3",
+        "serviceId": "drive"
       }
     ]
   },
