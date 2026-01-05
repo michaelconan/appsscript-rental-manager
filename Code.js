@@ -41,8 +41,8 @@ try {
   var TRANS = SMAIN.getSheetByName('Transactions');
     
   // Utility mail labels
-  var BILLS = GmailApp.getUserLabelByName('Home/Bills').getThreads();
-  var RECORDS = GmailApp.getUserLabelByName('Home/Duplex Records').getThreads();
+  var BILLS = GmailApp.getUserLabelByName('Home/Bills').getThreads(0,100);
+  var RECORDS = GmailApp.getUserLabelByName('Home/Duplex Records').getThreads(0,100);
   var REVIEW = GmailApp.getUserLabelByName('Script/Unmatched');
   var ERROR = GmailApp.getUserLabelByName('Script/Error');
 }
@@ -73,7 +73,7 @@ function manageProperty() {
  * Function to iterate bill accounts from config, identify emails from labels (filtered by Gmail),
  * parse amounts and post entries to spreadsheets
  */
-function getBills() {
+function getBills(scope) {
   
   // authorize
   if (!auth_()) {
@@ -83,6 +83,9 @@ function getBills() {
   // Add transactions to ledger for any emails not previously logged
   let tMain = TRANS.getDataRange().getValues();
   for (let u in UTILITIES) {
+    if (scope && !scope.includes(u)) {
+      continue
+    }
     var mails = RECORDS.filter(m => m.getFirstMessageSubject().includes(UTILITIES[u].subject) && m.getMessages()[0].getFrom().indexOf(UTILITIES[u].from)+1);
     var billMails = BILLS.filter(m => m.getFirstMessageSubject().includes(UTILITIES[u].subject) && m.getMessages()[0].getFrom().indexOf(UTILITIES[u].from)+1);
     mails = mails.concat(billMails);
@@ -322,13 +325,10 @@ function chargeUtilities() {
  */
 function getAttachmentBody_(message) {
   let billFile = UTILITY_FOLD.createFile(message.getAttachments()[0].copyBlob()).getBlob();
-  let newFile = Drive.Files.insert({
+  let newFile = Drive.Files.create({
     title: billFile.getName(),
-    mimeType: billFile.getContentType()
-  }, billFile, {
-    convert: true,
-    ocr: true
-  });
+    mimeType: 'application/vnd.google-apps.document',
+  }, billFile);
 
   let text = DocumentApp.openById(newFile.id).getBody().getText();
   Drive.Files.remove(newFile.id);
@@ -380,7 +380,7 @@ function cashFlow_() {
   
   // Get latest quarter, year, inception-to-date cash flow
   var flow = {};
-  var financials = CRM.getSheetByName('Financials').getDataRange().getValues().slice(-1)[0].slice(-3);
+  var financials = CRM.getSheetByName('Financials').getDataRange().getValues().slice(11)[0].slice(-3);
   ['QTD','YTD','ITD'].forEach((p, i) => flow[p] = Math.round(financials[i]).toLocaleString());
   
   return flow;
@@ -395,7 +395,7 @@ function financing_() {
   
   // Get financing amounts from spreadsheet
   finance.mortgage = Math.round(CRM.getSheetByName('Summary').getRange(15, 2).getValue()).toLocaleString();
-  finance.reimbursement = Math.round(CRM.getSheetByName('Reimbursement').getRange(16, 3).getValue()).toLocaleString();
+  finance.reimbursement = Math.round(CRM.getSheetByName('Reimbursement').getRange(17, 3).getValue()).toLocaleString();
   
   return finance;
 }
