@@ -4,5 +4,6 @@
 # Clasp credential files
 .clasp.json
 .clasprc.json
-creds.jsonnode_modules/
+creds.json
+node_modules/
 package-lock.json
