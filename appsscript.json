@@ -3,6 +3,11 @@
   "dependencies": {
     "enabledAdvancedServices": [
       {
+        "userSymbol": "Gmail",
+        "version": "v1",
+        "serviceId": "gmail"
+      },
+      {
         "userSymbol": "Tasks",
         "version": "v1",
         "serviceId": "tasks"

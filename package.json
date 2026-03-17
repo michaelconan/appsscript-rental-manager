@@ -1,0 +1,27 @@
+{
+  "name": "appsscript-rental-manager",
+  "version": "3.0.0",
+  "description": "Rental property management automation built on Google Apps Script",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./__tests__/setup.js"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "*.js",
+      "!jest.config.js",
+      "!__tests__/**"
+    ]
+  }
+}

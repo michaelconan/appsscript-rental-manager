@@ -5,3 +5,5 @@
 .clasp.json
 .clasprc.json
 creds.json
+node_modules/
+package-lock.json
